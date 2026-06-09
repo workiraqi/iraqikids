@@ -2,43 +2,79 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>Iraqi Kids - منصة الأطفال التعليمية</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iraqi Kids | منصة الأطفال التعليمية</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header>
-  <h1>Iraqi Kids</h1>
-  <p>أخبار وتعليم ومعلومات مفيدة للأطفال</p>
+<header class="top-header">
+  <div class="logo">
+    <span>🌈</span>
+    <h1>Iraqi Kids</h1>
+  </div>
+  <nav>
+    <a href="#">الرئيسية</a>
+    <a href="#">علوم</a>
+    <a href="#">صحة</a>
+    <a href="#">فضاء</a>
+    <a href="#">قصص</a>
+  </nav>
 </header>
 
-<nav>
-  <a href="#">الرئيسية</a>
-  <a href="#">علوم</a>
-  <a href="#">صحة</a>
-  <a href="#">تعليم</a>
-  <a href="#">فضاء</a>
-</nav>
+<section class="hero">
+  <div class="hero-text">
+    <h2>منصة عربية آمنة وممتعة للأطفال</h2>
+    <p>مقالات مبسطة، أخبار إيجابية، وموضوعات تعليمية تساعد الطفل على الفهم والاكتشاف.</p>
+    <a class="btn" href="#articles">ابدأ القراءة</a>
+  </div>
+  <div class="hero-card">
+    <span>🚀</span>
+    <h3>معلومة اليوم</h3>
+    <p>غسل اليدين يساعد على حماية الجسم من الجراثيم.</p>
+  </div>
+</section>
 
-<main>
-  <section class="hero">
-    <h2>مرحبًا بكم في منصة الأطفال التعليمية</h2>
-    <p>نقدّم مقالات مبسطة وآمنة ومفيدة للأطفال باللغة العربية.</p>
-  </section>
+<section class="categories">
+  <div class="cat">🔬<span>علوم</span></div>
+  <div class="cat">🩺<span>صحة</span></div>
+  <div class="cat">📚<span>تعليم</span></div>
+  <div class="cat">🪐<span>فضاء</span></div>
+  <div class="cat">💡<span>تقنية</span></div>
+</section>
 
-  <section class="articles">
-    <h2>آخر المقالات</h2>
-    <ul>
-  <li><a href="posts/post_2026-06-09.html">كيف يحمينا الماء والصابون من الأمراض؟</a> - 2026-06-09</li>
-  <li><a href="posts/post_2026-06-09.html">لماذا نغسل أيدينا قبل الطعام؟</a> - 2026-06-09</li>
-      <li><a href="posts/post_2026-06-09.html">لماذا نغسل أيدينا قبل الطعام؟</a></li>
-      <li><a href="posts/first-post.html">أول خبر تعليمي للأطفال</a></li>
-    </ul>
-  </section>
+<main id="articles">
+  <h2 class="section-title">آخر المقالات</h2>
+
+  <div class="cards">
+
+    <article class="card">
+      <img src="images/handwash.jpg" alt="غسل اليدين">
+      <div class="card-body">
+        <span class="tag">صحة</span>
+        <h3>لماذا نغسل أيدينا قبل الطعام؟</h3>
+        <p>تعرف على أهمية غسل اليدين بطريقة مبسطة ومناسبة للأطفال.</p>
+        <a href="posts/post_2026-06-09.html">اقرأ المزيد</a>
+      </div>
+    </article>
+
+    <article class="card">
+      <img src="images/handwash.jpg" alt="مقال تعليمي">
+      <div class="card-body">
+        <span class="tag">تعليم</span>
+        <h3>أول خبر تعليمي للأطفال</h3>
+        <p>بداية تجريبية لمنصة تعليمية ممتعة وآمنة للأطفال.</p>
+        <a href="posts/first-post.html">اقرأ المزيد</a>
+      </div>
+    </article>
+
+  </div>
 </main>
 
 <footer>
-  <p>© 2026 Iraqi Kids</p>
+  <h3>Iraqi Kids</h3>
+  <p>منصة تعليمية عربية للأطفال — معرفة، متعة، وأمان.</p>
+  <p>© 2026 جميع الحقوق محفوظة</p>
 </footer>
 
 </body>
