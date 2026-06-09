@@ -13,6 +13,7 @@ lines = text.splitlines()
 
 title = ""
 category = ""
+image = ""
 content = []
 mode = None
 
@@ -21,6 +22,8 @@ for line in lines:
         title = line.replace("العنوان:", "").strip()
     elif line.startswith("التصنيف:"):
         category = line.replace("التصنيف:", "").strip()
+    elif line.startswith("الصورة:"):
+        image = line.replace("الصورة:", "").strip()
     elif line.startswith("المحتوى:"):
         mode = "content"
     elif mode == "content":
@@ -38,6 +41,10 @@ for p in content:
     if p.strip():
         paragraphs += f"<p>{p.strip()}</p>\n"
 
+image_html = ""
+if image:
+    image_html = f'<img src="../images/{image}" style="max-width:600px;width:100%;border-radius:10px;">'
+
 html = f"""<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -47,6 +54,9 @@ html = f"""<!DOCTYPE html>
 <body>
 
 <h1>{title}</h1>
+
+{image_html}
+
 <p><strong>التصنيف:</strong> {category}</p>
 
 {paragraphs}
@@ -62,7 +72,6 @@ os.makedirs(POSTS_DIR, exist_ok=True)
 with open(post_path, "w", encoding="utf-8") as f:
     f.write(html)
 
-# تحديث index.html
 link_line = f'<li><a href="posts/{filename}">{title}</a> - {today}</li>'
 
 with open(INDEX_FILE, "r", encoding="utf-8") as f:
@@ -81,7 +90,6 @@ with open(INDEX_FILE, "w", encoding="utf-8") as f:
 print("تم إنشاء المقال وتحديث الصفحة الرئيسية:")
 print(filename)
 
-# أوامر Git للنشر
 subprocess.run(["git", "add", "."], check=True)
 subprocess.run(["git", "commit", "-m", f"Publish {title}"], check=True)
 subprocess.run(["git", "push"], check=True)
