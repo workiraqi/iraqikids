@@ -1,0 +1,12 @@
+{% extends "admin/base.html" %}
+{% block title %}الهوية والنصوص{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="kicker">Branding</span><h1>الهوية والنصوص</h1></div></div>
+<form method="post" class="panel form-grid" novalidate>
+  {{ form.hidden_tag() }}
+  {% for field in [form.site_name, form.arabic_site_name, form.short_description, form.hero_title, form.hero_subtitle, form.footer_text] %}
+    <div class="field {% if field.type == 'TextAreaField' %}wide{% endif %}">{{ field.label }}{{ field() }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</div>
+  {% endfor %}
+  <div class="wide">{{ form.submit(class="primary-button") }}</div>
+</form>
+{% endblock %}

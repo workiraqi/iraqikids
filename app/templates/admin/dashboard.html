@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+{% block title %}لوحة الإدارة{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="kicker">PHASE 1</span><h1>{{ settings.arabic_site_name if settings else 'الموقع' }}</h1></div><p>مرحبًا، {{ current_user.display_name }}</p></div>
+<div class="metric-grid">
+  <article class="metric"><span>التصنيفات</span><strong>{{ category_count }}</strong></article>
+  <article class="metric"><span>المظهر الحالي</span><strong>{{ active_theme.name if active_theme else 'غير مهيأ' }}</strong></article>
+</div>
+<div class="action-grid">
+  <a href="{{ url_for('admin.categories') }}"><strong>التصنيفات</strong><span>إضافة وتعديل وترتيب التبويبات.</span></a>
+  <a href="{{ url_for('admin.theme_edit') }}"><strong>المظهر</strong><span>تعديل ألوان الموقع ومعاينتها.</span></a>
+  <a href="{{ url_for('admin.branding_edit') }}"><strong>الهوية</strong><span>تعديل الاسم ونصوص Hero وFooter.</span></a>
+</div>
+{% endblock %}
+

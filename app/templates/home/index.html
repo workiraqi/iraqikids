@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ site_settings.arabic_site_name }} — {{ site_settings.short_description }}{% endblock %}
+{% block content %}
+  {% include "home/_hero.html" %}
+  {% include "home/_categories.html" %}
+  {% include "home/_featured.html" %}
+  {% include "home/_content_sections.html" %}
+  {% include "home/_challenge.html" %}
+{% endblock %}
+

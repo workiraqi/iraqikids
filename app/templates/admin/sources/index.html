@@ -1,0 +1,138 @@
+{% extends "admin/base.html" %}
+
+{% block title %}المصادر{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="admin-page-header">
+        <div>
+            <p class="eyebrow">Sources</p>
+            <h1>المصادر</h1>
+            <p>إدارة المواقع والخلاصات التي ستُستخدم لاكتشاف المواد المرشحة.</p>
+        </div>
+
+        <a class="button button-primary" href="{{ url_for('source_admin.create') }}">
+            إضافة مصدر
+        </a>
+    </div>
+
+    <div class="admin-filters">
+        <a href="{{ url_for('source_admin.index') }}"
+           {% if not selected_status %}aria-current="page"{% endif %}>
+            الكل
+        </a>
+
+        <a href="{{ url_for('source_admin.index', status='active') }}"
+           {% if selected_status == 'active' %}aria-current="page"{% endif %}>
+            المفعّلة
+        </a>
+
+        <a href="{{ url_for('source_admin.index', status='inactive') }}"
+           {% if selected_status == 'inactive' %}aria-current="page"{% endif %}>
+            المعطّلة
+        </a>
+    </div>
+
+    {% if sources %}
+        <div class="admin-table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>المصدر</th>
+                        <th>النوع</th>
+                        <th>اللغة</th>
+                        <th>الحالة</th>
+                        <th>آخر جلب</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for source in sources %}
+                    <tr>
+                        <td>
+                            <strong>{{ source.name }}</strong>
+                            <div>
+                                <a href="{{ source.url }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer">
+                                    {{ source.url }}
+                                </a>
+                            </div>
+                        </td>
+
+                        <td>
+                            {% if source.source_type == "rss" %}
+                                RSS
+                            {% else %}
+                                موقع ويب
+                            {% endif %}
+                        </td>
+
+                        <td>{{ source.language or "—" }}</td>
+
+                        <td>
+                            {% if source.is_active %}
+                                <span class="status status-success">مفعّل</span>
+                            {% else %}
+                                <span class="status status-muted">معطّل</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if source.last_fetched_at %}
+                                {{ source.last_fetched_at.strftime("%Y-%m-%d %H:%M") }}
+                            {% else %}
+                                لم يُجلب بعد
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="admin-actions">
+                                <form method="post" action="{{ url_for('source_admin.fetch_now', source_id=source.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">جلب الآن</button></form><a href="{{ url_for('source_admin.edit', source_id=source.id) }}">
+                                    تعديل
+                                </a>
+
+                                <form method="post"
+                                      action="{{ url_for('source_admin.toggle', source_id=source.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button type="submit">
+                                        {% if source.is_active %}
+                                            تعطيل
+                                        {% else %}
+                                            تفعيل
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                                {% if current_user.role == "admin" %}
+                                <form method="post"
+                                      action="{{ url_for('source_admin.delete', source_id=source.id) }}">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                                    <button type="submit">
+                                        حذف
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="admin-empty">
+            <h2>لا توجد مصادر بعد</h2>
+            <p>ابدأ بإضافة أول مصدر موثوق.</p>
+
+            <a class="button button-primary"
+               href="{{ url_for('source_admin.create') }}">
+                إضافة أول مصدر
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

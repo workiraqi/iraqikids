@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+{% block title %}المقالات{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><span class="kicker">Content</span><h1>المقالات</h1></div>
+  {% if current_user.role in ['admin', 'editor'] %}<a class="primary-button" href="{{ url_for('article_admin.create') }}">مقال جديد</a>{% endif %}
+</div>
+<form method="get" class="filter-bar">
+  <label for="status">الحالة</label>
+  <select id="status" name="status">
+    <option value="">الكل</option>
+    {% for status in statuses %}<option value="{{ status }}" {% if selected_status == status %}selected{% endif %}>{{ status }}</option>{% endfor %}
+  </select>
+  <button type="submit" class="secondary-button">تصفية</button>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>العنوان</th><th>التصنيف</th><th>الحالة</th><th>آخر تحديث</th><th>الإجراءات</th></tr></thead>
+    <tbody>
+    {% for article in page.items %}
+      <tr>
+        <td><strong>{{ article.title }}</strong>{% if article.featured %}<span class="status-chip">مميز</span>{% endif %}</td>
+        <td>{{ article.category.title }}</td><td><code>{{ article.status }}</code></td><td>{{ article.updated_at.strftime('%Y-%m-%d') }}</td>
+        <td class="actions">
+          <a href="{{ url_for('article_admin.preview', article_id=article.id) }}">معاينة</a>
+          {% if current_user.role in ['admin', 'editor'] %}<a href="{{ url_for('article_admin.edit', article_id=article.id) }}">تعديل</a>{% endif %}
+          {% if article.status == 'draft' and current_user.role in ['admin', 'editor'] %}<form method="post" action="{{ url_for('article_admin.submit_for_review', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">إرسال للمراجعة</button></form>{% endif %}
+          {% if article.status == 'review' and current_user.role in ['admin', 'reviewer'] %}<form method="post" action="{{ url_for('article_admin.approve', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">اعتماد</button></form>{% endif %}
+          {% if article.status == 'approved' and current_user.role in ['admin', 'reviewer'] %}<form method="post" action="{{ url_for('article_admin.publish', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">نشر</button></form>{% endif %}
+          {% if article.status == 'published' %}<form method="post" action="{{ url_for('article_admin.hide', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">إخفاء</button></form>{% endif %}
+          {% if article.status == 'hidden' %}<form method="post" action="{{ url_for('article_admin.restore', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">استعادة</button></form>{% endif %}
+          {% if current_user.role == 'admin' %}<form method="post" action="{{ url_for('article_admin.delete', article_id=article.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="danger">حذف</button></form>{% endif %}
+        </td>
+      </tr>
+    {% else %}<tr><td colspan="5">لا توجد مقالات بهذه الحالة.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% if page.pages > 1 %}<nav class="pagination" aria-label="صفحات المقالات الإدارية">{% for number in page.iter_pages() %}{% if number %}<a href="{{ url_for('article_admin.index', page=number, status=selected_status) }}" {% if number == page.page %}aria-current="page"{% endif %}>{{ number }}</a>{% else %}<span>…</span>{% endif %}{% endfor %}</nav>{% endif %}
+{% endblock %}
+

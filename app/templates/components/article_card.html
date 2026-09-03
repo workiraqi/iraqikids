@@ -1,0 +1,8 @@
+{% macro article_card(article, variant='compact', lazy=true) %}
+<article class="article-card {{ variant }}" style="--card-accent: {{ article.category.accent_color or 'var(--color-primary)' }}">
+  <a class="card-link" href="{{ url_for('content.article_detail', slug=article.slug) }}" aria-label="اقرأ: {{ article.title }}">
+    <div class="card-visual">{% if article.featured_image %}<img src="{{ url_for('static', filename=article.featured_image) }}" alt="{{ article.image_alt or article.title }}" {% if lazy %}loading="lazy"{% endif %}>{% else %}<span class="image-placeholder" aria-hidden="true"><i></i><b></b><em>{{ article.category.title[:1] }}</em><small>فكرة تستحق التجربة</small></span>{% endif %}</div>
+    <div class="card-content"><span class="card-category">{{ article.category.title }}</span><h3>{{ article.title }}</h3><p>{{ article.summary }}</p><span class="card-arrow" aria-hidden="true">←</span></div>
+  </a>
+</article>
+{% endmacro %}

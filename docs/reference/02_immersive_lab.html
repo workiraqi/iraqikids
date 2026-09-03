@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>مِخيال لاب — نموذج تفاعلي</title>
+<style>
+:root{--bg:#0d1220;--panel:#141b2d;--text:#f7f8fb;--muted:#a8b0c2;--lime:#d9ff64;--cyan:#7ce7ff;--pink:#ff8cc8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Tahoma,Arial,sans-serif;overflow-x:hidden}a{color:inherit;text-decoration:none}
+header{position:fixed;top:0;right:0;left:0;z-index:50;background:linear-gradient(to bottom,rgba(13,18,32,.96),rgba(13,18,32,.68),transparent)}.nav{max-width:1450px;margin:auto;padding:20px 30px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:25px;font-weight:900;display:flex;align-items:center;gap:10px}.mark{width:30px;height:30px;border:2px solid var(--lime);border-radius:11px;transform:rotate(12deg);position:relative}.mark:after{content:"";position:absolute;width:8px;height:8px;background:var(--pink);border-radius:50%;top:8px;left:8px}
+.links{display:flex;gap:25px;font-size:13px;color:#c6ccda} .links a:hover{color:white}
+.hero{min-height:820px;padding:140px 30px 60px;display:grid;place-items:center;position:relative;overflow:hidden}
+.hero-inner{max-width:1200px;text-align:center;position:relative;z-index:3}.eyebrow{display:inline-flex;gap:9px;align-items:center;padding:8px 12px;border:1px solid #36405a;border-radius:999px;color:#cdd4e2;font-size:12px}
+.hero h1{font-size:clamp(58px,8vw,118px);line-height:.9;letter-spacing:-4px;margin:28px auto;max-width:1100px}.hero h1 span{color:var(--lime)}.hero p{max-width:720px;margin:auto;color:var(--muted);font-size:18px;line-height:1.9}
+.cta{margin-top:34px;display:flex;justify-content:center;gap:12px}.cta a{padding:14px 20px;border-radius:999px;font-weight:800}.cta .primary{background:var(--lime);color:#121725}.cta .secondary{border:1px solid #3a4357}
+.blob{position:absolute;border-radius:50%;filter:blur(4px);opacity:.55}.b1{width:420px;height:420px;background:radial-gradient(circle,#6a5cff,transparent 68%);right:-100px;top:100px}.b2{width:520px;height:520px;background:radial-gradient(circle,#00b7ce,transparent 70%);left:-130px;bottom:-50px}.gridbg{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(to bottom,black,transparent)}
+.floating{position:absolute;z-index:2;border:1px solid #34405c;background:rgba(20,27,45,.75);backdrop-filter:blur(12px);border-radius:22px;padding:18px;box-shadow:0 20px 45px rgba(0,0,0,.25)}.f1{right:7%;top:38%;transform:rotate(4deg)}.f2{left:8%;top:30%;transform:rotate(-5deg)}.f3{left:15%;bottom:10%;transform:rotate(3deg)}.floating strong{display:block;font-size:20px;margin-top:6px}.floating small{color:#8f99ad}
+.section{max-width:1450px;margin:auto;padding:80px 30px}.section-title{display:flex;align-items:end;justify-content:space-between;margin-bottom:26px}.section-title h2{font-size:44px;margin:0}.section-title p{color:var(--muted);max-width:600px;line-height:1.8}
+.lab-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr;grid-auto-rows:255px;gap:16px}.tile{border-radius:26px;padding:28px;position:relative;overflow:hidden;border:1px solid #283149;background:var(--panel);transition:.3s transform,.3s border}.tile:hover{transform:translateY(-6px);border-color:#4c597a}.tile.large{grid-row:span 2}.tile.lime{background:var(--lime);color:#172033}.tile.cyan{background:#183747}.tile.pink{background:#3a2134}.tile h3{font-size:28px;line-height:1.2;margin:14px 0}.tile p{color:inherit;opacity:.78;line-height:1.7}.tag{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.65}.icon-art{position:absolute;width:200px;height:200px;left:-35px;bottom:-55px;opacity:.9}.icon-art svg{width:100%;height:100%}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.step{padding:25px;border-top:1px solid #33405b}.step .n{font-size:12px;color:#78849a}.step h4{font-size:20px;margin:13px 0}.step p{color:#949eb2;line-height:1.7}
+footer{border-top:1px solid #273047;margin-top:60px;padding:35px 30px;color:#8490a7;text-align:center}.reveal{opacity:0;transform:translateY(24px);transition:.7s ease}.reveal.in{opacity:1;transform:none}
+.mobile-panel{display:none}[data-menu]{display:none}
+@media(max-width:960px){.links{display:none}.floating{display:none}.lab-grid{grid-template-columns:1fr 1fr}.tile.large{grid-column:1/-1;grid-row:auto;min-height:360px}.timeline{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.hero{min-height:700px;padding-inline:18px}.hero h1{letter-spacing:-2px}.section{padding:60px 18px}.lab-grid,.timeline{grid-template-columns:1fr}.section-title{display:block}}
+</style>
+</head>
+<body>
+<header><div class="nav"><a class="brand" href="#"><span class="mark"></span>مِخيال لاب</a><nav class="links"><a href="#">استكشف</a><a href="#">أنشطة</a><a href="#">علوم وابتكار</a><a href="#">فن وخيال</a><a href="#">للأهل والمعلمين</a><a href="#">من العالم</a></nav><span style="font-size:13px;color:#8f98aa">AR</span></div></header>
+<section class="hero">
+<div class="gridbg"></div><div class="blob b1"></div><div class="blob b2"></div>
+<div class="floating f1"><small>تحدّي اليوم</small><strong>ابنِ جسراً من الورق</strong></div>
+<div class="floating f2"><small>من اليابان</small><strong>التعلّم بالملاحظة</strong></div>
+<div class="floating f3"><small>6–9 سنوات</small><strong>ارسم صوت المطر</strong></div>
+<div class="hero-inner reveal"><div class="eyebrow"><span style="width:7px;height:7px;background:var(--lime);border-radius:50%"></span>منصة عربية للإبداع لدى الأطفال</div><h1>المكان الذي تتحول فيه <span>الأسئلة</span> إلى تجارب.</h1><p>مختبر رقمي للفن والعلوم والخيال: محتوى عالمي مختار، أنشطة قابلة للتجربة، وأفكار تساعد الطفل على أن يصنع ويكتشف بنفسه.</p><div class="cta"><a class="primary" href="#discover">ابدأ الاستكشاف</a><a class="secondary" href="#">تحدّي اليوم</a></div></div>
+</section>
+<section class="section reveal" id="discover">
+<div class="section-title"><div><span class="eyebrow">اكتشف حسب الاهتمام</span><h2>سبعة أبواب، مئات الاحتمالات</h2></div><p>الصفحة لا تعرض قائمة مقالات تقليدية؛ بل مساحات موضوعية يمكن للطفل والأهل والمعلم الدخول منها إلى المحتوى.</p></div>
+<div class="lab-grid">
+<article class="tile large lime"><span class="tag">الإبداع والفنون</span><h3>الفن ليس النتيجة.<br>الفن طريقة للتفكير.</h3><p>رسم، موسيقى، مسرح، كتابة، تصميم، خيال وتفكير إبداعي.</p><div class="icon-art">
+<svg viewBox="0 0 220 220" aria-hidden="true">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6a5cff"/><stop offset="1" stop-color="#ff7f6e"/></linearGradient></defs>
+<path fill="url(#g)" d="M111 24c21 0 35 12 40 29 18 0 32 14 32 33 0 11-5 21-13 27 9 7 14 18 14 30 0 20-16 36-36 36-9 0-17-3-23-8-8 14-23 24-41 24-27 0-49-22-49-49 0-10 3-19 8-27-10-7-17-19-17-33 0-22 18-40 40-40 5-13 18-22 33-22 4 0 8 0 12 0Z" opacity=".95"/>
+<path d="M83 63c-14 4-22 15-22 28M121 59c14 1 24 10 27 22M75 122c8-12 20-17 35-16M119 108c18 1 30 10 37 25M98 73c2 17 1 34-4 50M121 93c-4 15-4 31 1 46" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>
+</svg>
+</div></article>
+<article class="tile cyan"><span class="tag">علوم وابتكار</span><h3>جرّب قبل أن تحفظ</h3><p>STEAM، اختراع، برمجة وروبوت.</p></article>
+<article class="tile pink"><span class="tag">الطفل المبدع</span><h3>أنشطة تصنع الفكرة</h3><p>ورش، تحديات، ألعاب وتجارب.</p></article>
+<article class="tile"><span class="tag">من العالم</span><h3>ما الذي يتعلمه طفل في فنلندا اليوم؟</h3><p>أفكار مترجمة ومحررة من ثقافات مختلفة.</p></article>
+<article class="tile"><span class="tag">كتب وحكايات</span><h3>حكاية تفتح سؤالاً</h3><p>كتب وقصص تقرأ مع الطفل لا له فقط.</p></article>
+</div>
+</section>
+<section class="section reveal"><div class="section-title"><div><span class="eyebrow">كيف يعمل المحتوى؟</span><h2>اقرأ → اسأل → جرّب → ناقش</h2></div></div><div class="timeline"><div class="step"><span class="n">01</span><h4>اقرأ</h4><p>مقال قصير ومصمم بصرياً.</p></div><div class="step"><span class="n">02</span><h4>اسأل</h4><p>أسئلة مفتوحة لاختبار الفكرة.</p></div><div class="step"><span class="n">03</span><h4>جرّب</h4><p>نشاط عملي يمكن تنفيذه فوراً.</p></div><div class="step"><span class="n">04</span><h4>ناقش</h4><p>مساحة للحوار مع الطفل.</p></div></div></section>
+<footer>مِخيال لاب — تصور بصري تفاعلي للصفحة الرئيسية</footer>
+
+<script>
+const navBtn = document.querySelector('[data-menu]');
+const nav = document.querySelector('.mobile-panel');
+if(navBtn && nav){
+  navBtn.addEventListener('click',()=>nav.classList.toggle('open'));
+}
+document.querySelectorAll('[data-filter]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-filter]').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+
+</body></html>

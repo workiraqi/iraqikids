@@ -1,0 +1,7 @@
+{% from "components/article_card.html" import article_card %}{% from "components/section_heading.html" import section_heading %}
+<section class="section-wrap featured-stage" id="discover" aria-labelledby="featured-heading">
+  <div class="site-section reveal">
+    {{ section_heading('قصة هذا الأسبوع', 'فكرة واحدة، واحتمالات كثيرة', 'مختارات محررة لتدعو الطفل إلى الملاحظة والصنع، لا إلى المشاهدة فقط.', url_for('content.articles'), 'كل المواد', 'featured-heading') }}
+    {% if featured_articles %}<div class="featured-editorial">{% for article in featured_articles %}{{ article_card(article, 'editorial-large' if loop.first else 'editorial-side', false if loop.first else true) }}{% endfor %}</div>{% else %}<div class="empty-lab"><span>◌</span><h3>لا توجد مختارات منشورة بعد</h3><p>عندما ينشر المحرر أولى المواد ستصبح هذه المساحة معرضًا حيًا للأفكار.</p></div>{% endif %}
+  </div>
+</section>

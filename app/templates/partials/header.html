@@ -1,0 +1,22 @@
+<header class="site-header" data-site-header>
+  <div class="nav-shell">
+    <a class="brand" href="{{ url_for('public.home') }}" aria-label="{{ site_settings.arabic_site_name if site_settings else 'Iraqi Kids' }} — الرئيسية">
+      <span class="brand-mark" aria-hidden="true"><i></i><b></b></span>
+      <span class="brand-copy"><strong>{{ site_settings.arabic_site_name if site_settings else 'Iraqi Kids' }}</strong><small>نكتشف · نجرّب · نتخيّل</small></span>
+    </a>
+    <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+      {% for category in nav_categories[:5] %}<a href="{{ url_for('content.category', slug=category.slug) }}"><span>{{ category.title }}</span></a>{% endfor %}
+      {% if nav_categories|length > 5 %}<details class="more-menu"><summary>المزيد <span aria-hidden="true">⌄</span></summary><div>{% for category in nav_categories[5:] %}<a href="{{ url_for('content.category', slug=category.slug) }}">{{ category.title }}</a>{% endfor %}</div></details>{% endif %}
+    </nav>
+    <div class="nav-actions">
+      <a class="search-button" href="{{ url_for('content.search') }}" aria-label="البحث"><span aria-hidden="true"></span><em>ابحث</em></a>
+      <button class="menu-button" type="button" data-menu-open aria-controls="mobile-menu" aria-expanded="false"><span>القائمة</span><i aria-hidden="true"></i></button>
+    </div>
+  </div>
+</header>
+<div class="mobile-overlay" data-menu-overlay hidden></div>
+<aside class="mobile-drawer" id="mobile-menu" data-mobile-menu aria-hidden="true" aria-label="قائمة الهاتف">
+  <div class="drawer-head"><span class="brand-copy"><strong>{{ site_settings.arabic_site_name if site_settings else 'Iraqi Kids' }}</strong><small>مساحة عربية للفضول</small></span><button type="button" data-menu-close aria-label="إغلاق القائمة">×</button></div>
+  <nav aria-label="التنقل على الهاتف"><a href="{{ url_for('public.home') }}">الرئيسية</a><a href="{{ url_for('content.articles') }}">كل المقالات</a>{% for category in nav_categories %}<a href="{{ url_for('content.category', slug=category.slug) }}">{{ category.title }}</a>{% endfor %}</nav>
+  <form action="{{ url_for('content.search') }}" method="get" class="drawer-search"><label for="mobile-search">ما الذي يثير فضولك؟</label><div><input id="mobile-search" type="search" name="q" placeholder="فن، علوم، حكايات…"><button type="submit">ابحث</button></div></form>
+</aside>

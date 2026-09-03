@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="page-heading">
+  <div><span class="kicker">Articles</span><h1>{{ page_title }}</h1>{% if article %}<p>الحالة: <code>{{ article.status }}</code></p>{% endif %}</div>
+  <div>{% if article %}<a href="{{ url_for('article_admin.preview', article_id=article.id) }}">معاينة</a>{% endif %} <a href="{{ url_for('article_admin.index') }}">عودة</a></div>
+</div>
+<form method="post" enctype="multipart/form-data" class="panel article-form" novalidate>
+  {{ form.hidden_tag() }}
+  <fieldset><legend>المحتوى العربي</legend>
+    {% for field in [form.title, form.slug, form.category_id, form.summary, form.body, form.author, form.featured] %}
+      <div class="field {% if field.name in ['summary', 'body'] %}wide{% endif %}">{{ field.label }}{{ field() }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</div>
+    {% endfor %}
+  </fieldset>
+  <fieldset><legend>الصورة</legend>
+    {% if article and article.featured_image %}<img class="admin-image-preview" src="{{ url_for('static', filename=article.featured_image) }}" alt="{{ article.image_alt or '' }}">{% endif %}
+    {% for field in [form.image, form.image_alt, form.image_caption, form.image_credit, form.remove_image] %}<div class="field">{{ field.label }}{{ field() }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</div>{% endfor %}
+  </fieldset>
+  <fieldset><legend>المصدر الأصلي — اختياري</legend>
+    {% for field in [form.source_name, form.source_url, form.source_language, form.original_title] %}<div class="field">{{ field.label }}{{ field() }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</div>{% endfor %}
+  </fieldset>
+  {{ form.submit(class="primary-button") }}
+</form>
+{% endblock %}

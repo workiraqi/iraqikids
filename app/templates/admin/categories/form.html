@@ -1,0 +1,13 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="kicker">Categories</span><h1>{{ page_title }}</h1></div><a href="{{ url_for('admin.categories') }}">عودة</a></div>
+<form method="post" class="panel form-grid" novalidate>
+  {{ form.hidden_tag() }}
+  {% for field in [form.title, form.slug, form.parent_id, form.sort_order, form.icon, form.accent_color, form.description, form.visible] %}
+    <div class="field {% if field.name == 'description' %}wide{% endif %}">{{ field.label }}{{ field() }}{% for error in field.errors %}<small>{{ error }}</small>{% endfor %}</div>
+  {% endfor %}
+  <div class="wide">{{ form.submit(class="primary-button") }}</div>
+</form>
+{% endblock %}
+

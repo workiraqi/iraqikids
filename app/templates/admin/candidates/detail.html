@@ -1,0 +1,205 @@
+{% extends "admin/base.html" %}
+
+{% block title %}تفاصيل المادة المرشحة
+
+\n{% endblock %}
+
+{% block content %}
+
+<section class="admin-card">
+  <h2>التحرير العربي</h2>
+  <form method="post" action="{{ url_for('candidate_admin.translate_arabic', candidate_id=candidate.id) }}" style="margin-bottom:16px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit">ترجمة إلى العربية</button>
+  </form>
+  <form method="post" action="{{ url_for('candidate_admin.save_arabic', candidate_id=candidate.id) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <label>العنوان العربي</label>
+    <input type="text" name="arabic_title" value="{{ candidate.arabic_title or '' }}" maxlength="500">
+
+    <label>الملخص العربي</label>
+    <textarea name="arabic_summary" rows="6">{{ candidate.arabic_summary or '' }}</textarea>
+
+    <label>النص العربي المحرر</label>
+    <textarea name="arabic_body" rows="14">{{ candidate.arabic_body or '' }}</textarea>
+
+    <p>حالة الترجمة: <strong>{{ candidate.translation_status }}</strong></p>
+
+    <button type="submit">حفظ النص العربي</button>
+  </form>
+</section>
+
+<section class="admin-page-header">
+    <div>
+        <h1>{{ candidate.title }}</h1>
+        <p>تفاصيل المادة المرشحة قبل اتخاذ قرار المراجعة.</p>
+    </div>
+</section>
+
+<div class="admin-card">
+
+    <p><strong>المصدر:</strong> {{ candidate.source.name }}</p>
+
+    <p>
+        <strong>الحالة:</strong>
+        {% if candidate.status == "new" %}
+            جديد
+        {% elif candidate.status == "review" %}
+            قيد المراجعة
+        {% elif candidate.status == "rejected" %}
+            مرفوض
+        {% elif candidate.status == "converted" %}
+            محوّل إلى مقال
+        {% else %}
+            {{ candidate.status }}
+        {% endif %}
+    </p>
+
+    {% if candidate.original_author %}
+        <p><strong>الكاتب:</strong> {{ candidate.original_author }}</p>
+    {% endif %}
+
+    {% if candidate.published_at_source %}
+        <p>
+            <strong>تاريخ المصدر:</strong>
+            {{ candidate.published_at_source.strftime("%Y-%m-%d") }}
+        </p>
+    {% endif %}
+
+    {% if candidate.original_summary %}
+        <h2>الملخص الأصلي</h2>
+
+        <div>
+            {{ candidate.original_summary }}
+        </div>
+    {% endif %}
+
+    {% if candidate.image_url %}
+        <p>
+            <strong>رابط الصورة:</strong>
+            <a href="{{ candidate.image_url }}"
+               target="_blank"
+               rel="noopener noreferrer">
+                فتح الصورة
+            </a>
+        </p>
+    {% endif %}
+
+    <p>
+        <a href="{{ candidate.original_url }}"
+           target="_blank"
+           rel="noopener noreferrer">
+            فتح المادة في المصدر الأصلي
+        </a>
+    </p>
+
+</div>
+
+
+<section class="admin-card">
+  <h2>تقييم المحتوى</h2>
+
+  <form method="post"
+        action="{{ url_for('candidate_admin.score_candidate', candidate_id=candidate.id) }}"
+        style="margin-bottom:16px;">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <button type="submit">تقييم المحتوى</button>
+  </form>
+
+  {% if candidate.overall_score is not none %}
+    <p>
+      <strong>الدرجة الكلية:</strong>
+      {{ candidate.overall_score }} / 100
+    </p>
+
+    <p>
+      <strong>نوع المحتوى:</strong>
+      {{ candidate.content_type or "—" }}
+    </p>
+
+    <p>
+      <strong>توصية النظام:</strong>
+      {{ candidate.score_recommendation or "—" }}
+    </p>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>الملاءمة</th>
+          <td>{{ candidate.relevance_score if candidate.relevance_score is not none else "—" }} / 30</td>
+        </tr>
+        <tr>
+          <th>القيمة العملية</th>
+          <td>{{ candidate.practical_score if candidate.practical_score is not none else "—" }} / 20</td>
+        </tr>
+        <tr>
+          <th>القيمة المعرفية</th>
+          <td>{{ candidate.knowledge_score if candidate.knowledge_score is not none else "—" }} / 15</td>
+        </tr>
+        <tr>
+          <th>قابلية التكييف العربي</th>
+          <td>{{ candidate.adaptability_score if candidate.adaptability_score is not none else "—" }} / 15</td>
+        </tr>
+        <tr>
+          <th>جودة المصدر</th>
+          <td>{{ candidate.source_quality_score if candidate.source_quality_score is not none else "—" }} / 10</td>
+        </tr>
+        <tr>
+          <th>الأصالة</th>
+          <td>{{ candidate.originality_score if candidate.originality_score is not none else "—" }} / 10</td>
+        </tr>
+      </tbody>
+    </table>
+
+    {% if candidate.scoring_reasons %}
+      <p>
+        <strong>مبررات التقييم:</strong>
+        {{ candidate.scoring_reasons }}
+      </p>
+    {% endif %}
+
+    <p>
+      <small>
+        هذا التقييم أداة مساعدة للمراجع ولا يؤدي تلقائيًا إلى قبول المادة أو رفضها أو نشرها.
+      </small>
+    </p>
+  {% else %}
+    <p>لم يتم تقييم هذه المادة بعد.</p>
+  {% endif %}
+</section>
+
+<div class="admin-card"><h2>تحويل إلى مقال</h2><form method="post" action="{{ url_for('candidate_admin.convert', candidate_id=candidate.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><label>التصنيف<select name="category_id" required>
+<option value="">اختر التصنيف</option>
+{% for category in categories %}
+<option value="{{ category.id }}">{{ category.name }}</option>
+{% endfor %}
+</select></label><button type="submit">تحويل إلى مسودة مقال</button></form></div><div class="admin-actions">
+
+    {% if candidate.status == "new" %}
+        <form method="post"
+              action="{{ url_for('candidate_admin.mark_review', candidate_id=candidate.id) }}">
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+            <button type="submit">بدء المراجعة</button>
+        </form>
+    {% endif %}
+
+    {% if candidate.status != "rejected" %}
+        <form method="post"
+              action="{{ url_for('candidate_admin.reject', candidate_id=candidate.id) }}">
+            <input type="hidden"
+                   name="csrf_token"
+                   value="{{ csrf_token() }}">
+            <button type="submit">رفض المادة</button>
+        </form>
+    {% endif %}
+
+    <a href="{{ url_for('candidate_admin.index') }}">
+        العودة إلى المواد المرشحة
+    </a>
+
+</div>
+
+{% endblock %}

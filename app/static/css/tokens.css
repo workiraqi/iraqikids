@@ -1,0 +1,24 @@
+:root {
+  --color-bg-alt: var(--color-bg-secondary);
+  --color-surface: var(--color-panel);
+  --color-accent-1: var(--color-primary);
+  --color-accent-2: var(--color-secondary);
+  --color-accent-3: var(--color-cyan);
+  --color-dark: var(--color-text);
+  --color-light: var(--color-bg);
+  --color-muted: var(--color-text-muted);
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-xl: 52px;
+  --space-xs: .5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: clamp(4rem, 8vw, 8rem);
+  --shadow-soft: 0 18px 45px color-mix(in srgb, var(--color-text) 10%, transparent);
+  --shadow-hover: 0 26px 64px color-mix(in srgb, var(--color-text) 16%, transparent);
+  --container-width: 1420px;
+  --reading-width: 790px;
+  --font-arabic: "Segoe UI", Tahoma, Arial, sans-serif;
+}

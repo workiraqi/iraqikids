@@ -1,0 +1,9 @@
+{% from "components/category_tile.html" import category_tile %}{% from "components/section_heading.html" import section_heading %}
+<section class="section-wrap categories-stage" id="creative-categories" aria-labelledby="categories-heading">
+  <div class="site-section reveal">
+    {{ section_heading('اختر بابًا للفضول', 'لكل فضولٍ مساحته', 'ألوان وشخصيات مختلفة، يجمعها هدف واحد: أن تتحول القراءة إلى سؤال وتجربة وحكاية.', '', 'عرض الكل', 'categories-heading') }}
+    <div class="category-mosaic">
+      {% for category in categories %}{{ category_tile(category, loop.index, ['category-large','category-tall','category-round','category-wide','category-note'][loop.index0 % 5]) }}{% else %}<div class="empty-lab"><span>✦</span><h3>المساحة تستعد</h3><p>ستظهر أبواب الاستكشاف هنا عند إضافة التصنيفات.</p></div>{% endfor %}
+    </div>
+  </div>
+</section>

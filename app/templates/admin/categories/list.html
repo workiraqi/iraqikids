@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% block title %}التصنيفات{% endblock %}
+{% block content %}
+<div class="page-heading"><div><span class="kicker">Taxonomy</span><h1>التصنيفات</h1></div><a class="primary-button" href="{{ url_for('admin.category_new') }}">إضافة تصنيف</a></div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>الترتيب</th><th>العنوان</th><th>Slug</th><th>الأب</th><th>الحالة</th><th>الإجراءات</th></tr></thead>
+    <tbody>
+    {% for category in categories %}
+      <tr>
+        <td>{{ category.sort_order }}</td><td>{{ category.title }}</td><td><code>{{ category.slug }}</code></td>
+        <td>{{ category.parent.title if category.parent else '—' }}</td><td>{{ 'ظاهر' if category.visible else 'مخفي' }}</td>
+        <td class="actions">
+          <a href="{{ url_for('admin.category_edit', category_id=category.id) }}">تعديل</a>
+          <form method="post" action="{{ url_for('admin.category_toggle', category_id=category.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">{{ 'إخفاء' if category.visible else 'إظهار' }}</button></form>
+          {% if current_user.role == 'admin' %}<form method="post" action="{{ url_for('admin.category_delete', category_id=category.id) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="danger">حذف</button></form>{% endif %}
+        </td>
+      </tr>
+    {% else %}<tr><td colspan="6">لا توجد تصنيفات.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{{ url_for('public.home', _external=True) }}</loc></url>
+  <url><loc>{{ url_for('content.articles', _external=True) }}</loc></url>
+  {% for category in categories %}<url><loc>{{ url_for('content.category', slug=category.slug, _external=True) }}</loc></url>{% endfor %}
+  {% for article in articles %}<url><loc>{{ url_for('content.article_detail', slug=article.slug, _external=True) }}</loc>{% if article.updated_at %}<lastmod>{{ article.updated_at.date().isoformat() }}</lastmod>{% endif %}</url>{% endfor %}
+</urlset>

@@ -1,0 +1,3 @@
+{% macro category_tile(category, index, variant='category-note') %}
+<article class="category-tile {{ variant }} category-{{ category.slug }}" style="--category-accent: {{ category.accent_color or 'var(--color-primary)' }}"><a href="{{ url_for('content.category', slug=category.slug) }}"><span class="tile-index">{{ '%02d'|format(index) }}</span><span class="tile-icon" aria-hidden="true">{{ category.icon or ['✦','◌','⌁','◇'][index % 4] }}</span><div class="tile-copy"><h3>{{ category.title }}</h3><p>{{ category.description or 'مساحة لاكتشاف أفكار وتجارب جديدة.' }}</p></div><span class="tile-action">افتح الباب <i aria-hidden="true">←</i></span></a></article>
+{% endmacro %}

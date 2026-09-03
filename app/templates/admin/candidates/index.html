@@ -1,0 +1,127 @@
+{% extends "admin/base.html" %}
+
+{% block title %}المواد المرشحة{% endblock %}
+
+{% block content %}
+
+<section class="admin-page-header">
+    <div>
+        <h1>المواد المرشحة</h1>
+        <p>المواد التي جُلبت من المصادر وتنتظر المراجعة.</p>
+    </div>
+</section>
+
+<form method="get" class="admin-filter-bar">
+
+    <label>
+        الحالة
+        <select name="status">
+            <option value="">الكل</option>
+            <option value="new" {% if selected_status == "new" %}selected{% endif %}>جديد</option>
+            <option value="review" {% if selected_status == "review" %}selected{% endif %}>قيد المراجعة</option>
+            <option value="rejected" {% if selected_status == "rejected" %}selected{% endif %}>مرفوض</option>
+            <option value="converted" {% if selected_status == "converted" %}selected{% endif %}>محوّل إلى مقال</option>
+        </select>
+    </label>
+
+    <label>
+        المصدر
+        <select name="source_id">
+            <option value="">كل المصادر</option>
+
+            {% for source in sources %}
+                <option value="{{ source.id }}"
+                    {% if selected_source_id == source.id %}selected{% endif %}>
+                    {{ source.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <button type="submit">تصفية</button>
+
+</form>
+
+<div class="admin-table-wrap">
+
+<table class="admin-table">
+
+<thead>
+<tr>
+    <th>العنوان</th>
+    <th>المصدر</th>
+    <th>تاريخ المصدر</th>
+    <th>الحالة</th>
+    <th>الرابط</th><th>الإجراء</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for candidate in candidates %}
+
+<tr>
+
+<td>
+    <strong>{{ candidate.title }}</strong>
+
+    {% if candidate.original_summary %}
+        <p>
+            {{ candidate.original_summary|striptags|truncate(180) }}
+        </p>
+    {% endif %}
+</td>
+
+<td>
+    {{ candidate.source.name }}
+</td>
+
+<td>
+    {% if candidate.published_at_source %}
+        {{ candidate.published_at_source.strftime("%Y-%m-%d") }}
+    {% else %}
+        —
+    {% endif %}
+</td>
+
+<td>
+    {% if candidate.status == "new" %}
+        جديد
+    {% elif candidate.status == "review" %}
+        قيد المراجعة
+    {% elif candidate.status == "rejected" %}
+        مرفوض
+    {% elif candidate.status == "converted" %}
+        محوّل إلى مقال
+    {% else %}
+        {{ candidate.status }}
+    {% endif %}
+</td>
+
+<td>
+    <a href="{{ candidate.original_url }}"
+       target="_blank"
+       rel="noopener noreferrer">
+        فتح المصدر
+    </a>
+</td>
+
+<td><a href="{{ url_for('candidate_admin.detail', candidate_id=candidate.id) }}">عرض</a></td>
+
+</tr>
+
+{% else %}
+
+<tr>
+    <td colspan="6">لا توجد مواد مرشحة حاليًا.</td>
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

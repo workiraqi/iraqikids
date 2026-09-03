@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% block title %}تسجيل الدخول{% endblock %}
+{% block content %}
+<section class="auth-card">
+  <span class="kicker">لوحة الإدارة</span>
+  <h1>تسجيل الدخول</h1>
+  <p>استخدم حساب الإدارة المحلي للوصول إلى إعدادات المرحلة الأولى.</p>
+  <form method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div class="field">{{ form.email.label }}{{ form.email(autocomplete="email") }}{% for error in form.email.errors %}<small>{{ error }}</small>{% endfor %}</div>
+    <div class="field">{{ form.password.label }}{{ form.password(autocomplete="current-password") }}{% for error in form.password.errors %}<small>{{ error }}</small>{% endfor %}</div>
+    {{ form.submit(class="primary-button") }}
+  </form>
+</section>
+{% endblock %}
+

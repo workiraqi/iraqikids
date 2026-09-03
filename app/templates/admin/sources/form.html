@@ -1,0 +1,90 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<section class="admin-section">
+    <div class="admin-page-header">
+        <div>
+            <p class="eyebrow">Sources</p>
+            <h1>{{ page_title }}</h1>
+            <p>أدخل بيانات المصدر. لن يؤدي حفظ المصدر إلى جلب أو نشر أي محتوى تلقائيًا.</p>
+        </div>
+
+        <a href="{{ url_for('source_admin.index') }}">
+            العودة إلى المصادر
+        </a>
+    </div>
+
+    <form method="post" class="admin-form">
+        {{ form.hidden_tag() }}
+
+        <div class="form-field">
+            {{ form.name.label }}
+            {{ form.name() }}
+
+            {% for error in form.name.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.url.label }}
+            {{ form.url(placeholder="https://example.org/feed") }}
+
+            {% for error in form.url.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.source_type.label }}
+            {{ form.source_type() }}
+
+            {% for error in form.source_type.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.language.label }}
+            {{ form.language(placeholder="مثال: en أو fa أو fr") }}
+
+            {% for error in form.language.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.quality_score.label }}
+            {{ form.quality_score(min="0", max="10", step="1") }}
+            <p class="form-help">0-10; default 5.</p>
+            {% for error in form.quality_score.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field">
+            {{ form.notes.label }}
+            {{ form.notes(rows="5") }}
+
+            {% for error in form.notes.errors %}
+                <p class="form-error">{{ error }}</p>
+            {% endfor %}
+        </div>
+
+        <div class="form-field form-check">
+            {{ form.is_active() }}
+            {{ form.is_active.label }}
+        </div>
+
+        <div class="form-actions">
+            {{ form.submit(class_="button button-primary") }}
+
+            <a href="{{ url_for('source_admin.index') }}">
+                إلغاء
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
