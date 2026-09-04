@@ -1,10 +1,13 @@
 {% extends "base.html" %}
-{% block title %}{{ site_settings.arabic_site_name }} — {{ site_settings.short_description }}{% endblock %}
+{% block title %}{{ (site_settings.arabic_site_name ~ ' — ' ~ site_settings.short_description) if site_settings else 'Iraqi Kids — عالم للفضول والاكتشاف' }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">{% endblock %}
 {% block content %}
-  {% include "home/_hero.html" %}
-  {% include "home/_categories.html" %}
-  {% include "home/_featured.html" %}
-  {% include "home/_content_sections.html" %}
-  {% include "home/_challenge.html" %}
+  <div class="home-page">
+    {% include "home/_hero.html" %}
+    {% include "home/_categories.html" %}
+    {% include "home/_featured.html" %}
+    {% include "home/_content_sections.html" %}
+    {% include "home/_challenge.html" %}
+  </div>
 {% endblock %}
-
+{% block scripts %}<script src="{{ url_for('static', filename='js/creative-worlds.js') }}" defer></script>{% endblock %}

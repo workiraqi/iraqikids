@@ -1,24 +1,143 @@
 :root {
-  --color-bg-alt: var(--color-bg-secondary);
-  --color-surface: var(--color-panel);
-  --color-accent-1: var(--color-primary);
-  --color-accent-2: var(--color-secondary);
-  --color-accent-3: var(--color-cyan);
-  --color-dark: var(--color-text);
-  --color-light: var(--color-bg);
-  --color-muted: var(--color-text-muted);
-  --radius-sm: 12px;
-  --radius-md: 20px;
-  --radius-lg: 32px;
-  --radius-xl: 52px;
-  --space-xs: .5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2.5rem;
-  --space-xl: clamp(4rem, 8vw, 8rem);
-  --shadow-soft: 0 18px 45px color-mix(in srgb, var(--color-text) 10%, transparent);
-  --shadow-hover: 0 26px 64px color-mix(in srgb, var(--color-text) 16%, transparent);
-  --container-width: 1420px;
-  --reading-width: 790px;
+  /* Theme-aware semantic colors. /theme.css remains the source of truth. */
+  --ds-color-primary: var(--color-primary, #ff6257);
+  --ds-color-secondary: var(--color-secondary, #7467f0);
+  --ds-color-accent-sun: var(--color-lime, #f5c84c);
+  --ds-color-accent-sky: var(--color-cyan, #77cbea);
+  --ds-color-accent-berry: var(--color-pink, #ff9ab5);
+  --ds-surface-page: var(--color-bg, #fff7e8);
+  --ds-surface-section: var(--color-bg-secondary, #f2ebff);
+  --ds-surface-card: var(--color-panel, #fffdf7);
+  --ds-text-strong: var(--color-text, #14213d);
+  --ds-text-muted: var(--color-text-muted, #5f6472);
+  --ds-ink-on-bright: #14213d;
+  --ds-ink-on-dark: #fffaf0;
+  --ds-border: var(--color-border, #d9d0c2);
+  --ds-action: var(--color-button, #f05249);
+  --ds-action-hover: var(--color-hover, #c83f39);
+  --ds-on-action: var(--ds-ink-on-bright);
+  --ds-on-action-hover: var(--ds-ink-on-dark);
+  --ds-status-success: color-mix(in srgb, var(--ds-color-accent-sky) 42%, #176b49);
+  --ds-status-warning: color-mix(in srgb, var(--ds-color-accent-sun) 78%, #9a5b00);
+  --ds-status-error: color-mix(in srgb, var(--ds-color-primary) 78%, #9f2430);
+
+  /* Backward-compatible aliases used by the current public UI. */
+  --color-bg-alt: var(--ds-surface-section);
+  --color-surface: var(--ds-surface-card);
+  --color-accent-1: var(--ds-color-primary);
+  --color-accent-2: var(--ds-color-secondary);
+  --color-accent-3: var(--ds-color-accent-sky);
+  --color-dark: var(--ds-text-strong);
+  --color-light: var(--ds-surface-page);
+  --color-muted: var(--ds-text-muted);
+
+  /* Arabic-first typography; no external font dependency. */
   --font-arabic: "Segoe UI", Tahoma, Arial, sans-serif;
+  --font-display: var(--font-arabic);
+  --font-body: var(--font-arabic);
+  --font-weight-regular: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 750;
+  --font-weight-black: 900;
+  --type-display: clamp(3.75rem, 7.2vw, 7.5rem);
+  --type-h1: clamp(3.15rem, 6vw, 5.8rem);
+  --type-h2: clamp(2.45rem, 5vw, 5.1rem);
+  --type-h3: clamp(1.35rem, 2.2vw, 2.2rem);
+  --type-body-lg: clamp(1.05rem, 1.35vw, 1.2rem);
+  --type-body: 1rem;
+  --type-small: .82rem;
+  --type-label: .75rem;
+  --line-display: .96;
+  --line-heading: 1.12;
+  --line-body: 1.8;
+  --line-small: 1.55;
+  --tracking-display: -.055em;
+  --tracking-label: .01em;
+
+  /* A 4px-based spacing scale. */
+  --space-0: 0;
+  --space-1: .25rem;
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-xs: var(--space-2);
+  --space-sm: var(--space-4);
+  --space-md: var(--space-6);
+  --space-lg: var(--space-10);
+  --space-xl: clamp(var(--space-16), 8vw, 8rem);
+  --page-gutter: clamp(1.25rem, 4vw, 3.625rem);
+  --section-space: var(--space-xl);
+  --cluster-gap: clamp(var(--space-4), 2vw, var(--space-6));
+
+  /* Shapes: friendly and tactile without relying on image assets. */
+  --radius-xs: .5rem;
+  --radius-sm: .75rem;
+  --radius-md: 1.25rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3.25rem;
+  --radius-pill: 999px;
+  --radius-paper: .5rem 1.875rem .5rem 1.875rem;
+  --radius-organic-a: 48% 52% 44% 56% / 38% 43% 57% 62%;
+  --radius-organic-b: 42% 58% 63% 37% / 55% 39% 61% 45%;
+  --radius-organic-card: 2.5rem 1.125rem 2.5rem 1.125rem;
+
+  /* Component geometry. */
+  --control-height-sm: 2.5rem;
+  --control-height-md: 3.25rem;
+  --control-height-lg: 3.75rem;
+  --control-padding-sm: .625rem 1rem;
+  --control-padding-md: .8125rem 1.4375rem;
+  --control-padding-lg: 1rem 1.75rem;
+  --card-padding: clamp(1.25rem, 2.4vw, 1.875rem);
+  --card-radius: var(--radius-lg);
+  --card-border: 1px solid var(--ds-border);
+  --media-ratio-landscape: 4 / 3;
+  --media-ratio-wide: 16 / 9;
+  --media-ratio-square: 1;
+  --media-ratio-portrait: 4 / 5;
+
+  /* Depth and motion. */
+  --shadow-soft: 0 1.125rem 2.8125rem color-mix(in srgb, var(--ds-text-strong) 10%, transparent);
+  --shadow-hover: 0 1.625rem 4rem color-mix(in srgb, var(--ds-text-strong) 16%, transparent);
+  --shadow-pressed: 0 .5rem 1.5rem color-mix(in srgb, var(--ds-text-strong) 12%, transparent);
+  --motion-fast: 160ms;
+  --motion-base: 260ms;
+  --motion-slow: 520ms;
+  --ease-standard: cubic-bezier(.2, .7, .2, 1);
+  --ease-playful: cubic-bezier(.22, 1, .36, 1);
+  --hover-lift: -.375rem;
+  --hover-scale: 1.025;
+
+  /* Layout. Breakpoint values document the responsive contract. */
+  --container-width: 88.75rem;
+  --container-narrow: 65rem;
+  --reading-width: 49.375rem;
+  --breakpoint-mobile: 32.5rem;
+  --breakpoint-tablet: 51.25rem;
+  --breakpoint-desktop: 70rem;
+}
+
+@media (max-width: 820px) {
+  :root {
+    --page-gutter: 1.25rem;
+    --section-space: 4.5rem;
+    --card-padding: 1.375rem;
+  }
+}
+
+@media (max-width: 520px) {
+  :root {
+    --page-gutter: 1rem;
+    --section-space: 4rem;
+    --type-body: .975rem;
+    --card-radius: var(--radius-md);
+  }
 }

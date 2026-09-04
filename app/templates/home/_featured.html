@@ -1,7 +1,12 @@
-{% from "components/article_card.html" import article_card %}{% from "components/section_heading.html" import section_heading %}
-<section class="section-wrap featured-stage" id="discover" aria-labelledby="featured-heading">
-  <div class="site-section reveal">
-    {{ section_heading('قصة هذا الأسبوع', 'فكرة واحدة، واحتمالات كثيرة', 'مختارات محررة لتدعو الطفل إلى الملاحظة والصنع، لا إلى المشاهدة فقط.', url_for('content.articles'), 'كل المواد', 'featured-heading') }}
-    {% if featured_articles %}<div class="featured-editorial">{% for article in featured_articles %}{{ article_card(article, 'editorial-large' if loop.first else 'editorial-side', false if loop.first else true) }}{% endfor %}</div>{% else %}<div class="empty-lab"><span>◌</span><h3>لا توجد مختارات منشورة بعد</h3><p>عندما ينشر المحرر أولى المواد ستصبح هذه المساحة معرضًا حيًا للأفكار.</p></div>{% endif %}
+{% from "components/article_card.html" import article_card %}
+<section class="ik-section ik-featured" id="discover" aria-labelledby="featured-heading">
+  <div class="ik-featured-scribble" aria-hidden="true"></div>
+  <div class="ik-home-shell reveal">
+    <header class="ik-section-heading ik-section-heading--light">
+      <div><span class="ik-kicker">اخترنا لك</span><h2 class="type-h2" id="featured-heading">فكرة اليوم قد تصبح مغامرتك.</h2></div>
+      <p>مختارات تدعو الطفل إلى الملاحظة والصنع والسؤال، لا إلى المشاهدة فقط.</p>
+      <a class="ik-text-link arrow-link" href="{{ url_for('content.articles') }}">كل الأفكار <span aria-hidden="true">←</span></a>
+    </header>
+    {% if featured_articles %}<div class="ik-feature-grid">{% for article in featured_articles %}{{ article_card(article, 'ik-feature-card ik-feature-card--main' if loop.first else 'ik-feature-card ik-feature-card--side', false if loop.first else true) }}{% endfor %}</div>{% else %}<div class="empty-lab"><span>◌</span><h3>لا توجد مختارات منشورة بعد</h3><p>عندما ينشر المحرر أولى المواد ستصبح هذه المساحة معرضًا حيًا للأفكار.</p></div>{% endif %}
   </div>
 </section>

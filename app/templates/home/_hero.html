@@ -1,20 +1,58 @@
-<section class="playful-hero" aria-labelledby="hero-title">
-  <div class="hero-scribble hero-scribble-one" aria-hidden="true"></div><div class="hero-scribble hero-scribble-two" aria-hidden="true"></div>
-  <div class="hero-layout">
-    <div class="hero-copy reveal">
-      <span class="eyebrow eyebrow-bright"><i aria-hidden="true"></i>{{ site_settings.arabic_site_name }}</span>
-      <h1 id="hero-title">{{ site_settings.hero_title }}</h1>
-      <p>{{ site_settings.hero_subtitle }}</p>
-      <div class="hero-actions"><a class="pill-button primary arrow-link" href="#creative-categories">ابدأ الاستكشاف <span aria-hidden="true">←</span></a><a class="pill-button secondary" href="#discover">اكتشف الأنشطة</a></div>
-      <div class="hero-note"><span aria-hidden="true">✦</span><p><strong>مساحة آمنة للفضول</strong>أفكار مختارة للطفل، والأهل، والمعلمين.</p></div>
+{% set worlds = namespace(art='', writing='', play='') %}
+{% for category in categories %}
+  {% if category.slug == 'creativity-arts' %}{% set worlds.art = url_for('content.category', slug=category.slug) %}
+  {% elif category.slug == 'books-stories' %}{% set worlds.writing = url_for('content.category', slug=category.slug) %}
+  {% elif category.slug == 'creative-child-activities' %}{% set worlds.play = url_for('content.category', slug=category.slug) %}{% endif %}
+{% endfor %}
+<section class="cw-hero" aria-labelledby="hero-title" data-creative-worlds data-active-world="none">
+  <div class="cw-sky-shape cw-sky-shape--one" aria-hidden="true"></div><div class="cw-sky-shape cw-sky-shape--two" aria-hidden="true"></div>
+  <div class="ik-home-shell cw-hero-layout">
+    <div class="cw-hero-copy reveal">
+      <span class="ik-kicker"><i aria-hidden="true"></i>{{ site_settings.arabic_site_name if site_settings and site_settings.arabic_site_name else 'Iraqi Kids' }}</span>
+      <h1 class="type-display" id="hero-title">كل فكرة تفتح بابًا<br><em>إلى عالم أجمل</em></h1>
+      <p>الرسم، والكتابة، والمسرح، واللعب… طرق مختلفة يفكر بها الطفل ويكتشف العالم.</p>
+      <a class="pill-button primary large arrow-link" href="#creative-worlds-stage">اكتشف العوالم <span aria-hidden="true">↓</span></a>
     </div>
-    <div class="hero-collage reveal" data-parallax-zone aria-label="تكوين بصري يعبّر عن الفن والعلم والحكايات">
-      <div class="collage-main"><span class="collage-orbit" aria-hidden="true"></span><div class="collage-word"><small>اسأل</small><strong>ماذا لو؟</strong></div><span class="collage-pencil" aria-hidden="true"></span></div>
-      <div class="collage-card collage-card-art" data-parallax="0.45"><span>فن</span><strong>لونٌ يتحرّك</strong></div>
-      <div class="collage-card collage-card-science" data-parallax="0.7"><span>علوم</span><strong>فكرةٌ تُختبر</strong></div>
-      <div class="collage-sticker" data-parallax="0.35"><span>للصغار</span><b>والكبار الفضوليين</b></div>
-      <span class="collage-spark spark-one" aria-hidden="true">✦</span><span class="collage-spark spark-two" aria-hidden="true">✷</span>
+
+    <div class="cw-stage reveal" id="creative-worlds-stage" aria-label="أربعة عوالم للإبداع حول شخصية فِكرة">
+      <div class="cw-stage-ring" aria-hidden="true"></div>
+
+      {% if worlds.art %}<a class="cw-world cw-world--art" href="{{ worlds.art }}" data-world="art" aria-label="عالم الرسم — تخيل بالألوان">{% else %}<button class="cw-world cw-world--art" type="button" data-world="art" aria-label="عالم الرسم — تخيل بالألوان">{% endif %}
+        <img src="{{ url_for('static', filename='images/home/creative-worlds/art-door.svg') }}" alt="" aria-hidden="true">
+        <span class="cw-world-copy"><strong>عالم الرسم</strong><small>تخيّل بالألوان</small></span><i class="cw-world-spark" aria-hidden="true"></i>
+      {% if worlds.art %}</a>{% else %}</button>{% endif %}
+
+      {% if worlds.writing %}<a class="cw-world cw-world--writing" href="{{ worlds.writing }}" data-world="writing" aria-label="عالم الكتابة — حوّل فكرتك إلى قصة">{% else %}<button class="cw-world cw-world--writing" type="button" data-world="writing" aria-label="عالم الكتابة — حوّل فكرتك إلى قصة">{% endif %}
+        <img src="{{ url_for('static', filename='images/home/creative-worlds/writing-door.svg') }}" alt="" aria-hidden="true">
+        <span class="cw-world-copy"><strong>عالم الكتابة</strong><small>حوّل فكرتك إلى قصة</small></span><i class="cw-world-letter" aria-hidden="true">أ</i>
+      {% if worlds.writing %}</a>{% else %}</button>{% endif %}
+
+      <button class="cw-world cw-world--theatre" type="button" data-world="theatre" aria-label="عالم المسرح — عبّر بصوتك">
+        <img src="{{ url_for('static', filename='images/home/creative-worlds/theatre-door.svg') }}" alt="" aria-hidden="true">
+        <span class="cw-world-copy"><strong>عالم المسرح</strong><small>عبّر بصوتك</small></span><i class="cw-world-spotlight" aria-hidden="true"></i>
+      </button>
+
+      {% if worlds.play %}<a class="cw-world cw-world--play" href="{{ worlds.play }}" data-world="play" aria-label="عالم اللعب — جرّب واكتشف">{% else %}<button class="cw-world cw-world--play" type="button" data-world="play" aria-label="عالم اللعب — جرّب واكتشف">{% endif %}
+        <img src="{{ url_for('static', filename='images/home/creative-worlds/play-door.svg') }}" alt="" aria-hidden="true">
+        <span class="cw-world-copy"><strong>عالم اللعب</strong><small>جرّب واكتشف</small></span><i class="cw-world-ball" aria-hidden="true"></i>
+      {% if worlds.play %}</a>{% else %}</button>{% endif %}
+
+      <div class="cw-character" data-character aria-label="فِكرة، رفيقة الاكتشاف" role="img">
+        <span class="cw-character-shadow" aria-hidden="true"></span>
+        <span class="cw-character-body" aria-hidden="true"><i></i></span>
+        <span class="cw-character-head" aria-hidden="true">
+          <i class="cw-hair cw-hair--one"></i><i class="cw-hair cw-hair--two"></i><i class="cw-hair cw-hair--three"></i>
+          <span class="cw-eye cw-eye--right" data-eye data-gaze="center"><i class="cw-pupil"></i><b class="cw-eyelid"></b></span>
+          <span class="cw-eye cw-eye--left" data-eye data-gaze="center"><i class="cw-pupil"></i><b class="cw-eyelid"></b></span>
+          <span class="cw-character-cheek cw-character-cheek--right"></span><span class="cw-character-cheek cw-character-cheek--left"></span>
+          <span class="cw-character-mouth"></span>
+        </span>
+        <span class="cw-character-hand cw-character-hand--right" aria-hidden="true"></span><span class="cw-character-hand cw-character-hand--left" aria-hidden="true"></span>
+        <strong class="cw-character-name">فِكرة</strong>
+      </div>
+
+      <span class="cw-decoration cw-decoration--star" aria-hidden="true">✦</span><span class="cw-decoration cw-decoration--scribble" aria-hidden="true"></span><span class="cw-decoration cw-decoration--dots" aria-hidden="true"><i></i><i></i><i></i></span>
     </div>
   </div>
-  <a class="scroll-cue" href="#creative-categories"><span>مرّر لتبدأ الرحلة</span><i aria-hidden="true">↓</i></a>
+  <div class="cw-paper-edge" aria-hidden="true"></div>
 </section>

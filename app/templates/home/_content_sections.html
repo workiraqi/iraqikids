@@ -1,14 +1,20 @@
-{% from "components/article_card.html" import article_card %}{% from "components/section_heading.html" import section_heading %}
+{% from "components/article_card.html" import article_card %}
 {% for section in content_sections %}
-<section class="section-wrap topic-stage topic-{{ section.category.slug }}{% if section.category.slug == 'science-innovation' %} dark-stage{% elif section.category.slug == 'parents-teachers' %} calm-stage{% elif section.category.slug == 'books-stories' %} paper-stage{% elif section.category.slug == 'from-the-world' %} world-stage{% endif %}" style="--section-accent: {{ section.category.accent_color or 'var(--color-primary)' }}" aria-labelledby="topic-{{ section.category.id }}">
-  <div class="site-section reveal">
-    {% if section.category.slug == 'science-innovation' %}{{ section_heading('علوم وابتكار', 'جرّبها. غيّرها. اسأل لماذا.', section.category.description or 'تجارب صغيرة تعيد إلينا شيئًا من روح المختبر.', url_for('content.category', slug=section.category.slug), 'إلى مختبر العلوم', 'topic-' ~ section.category.id) }}
-    {% elif section.category.slug == 'from-the-world' %}{{ section_heading('من العالم', 'أفكار صغيرة تسافر حول العالم', section.category.description or 'نطل من العراق على تجارب وأسئلة من ثقافات مختلفة.', url_for('content.category', slug=section.category.slug), 'شاهد المزيد', 'topic-' ~ section.category.id) }}
-    {% elif section.category.slug == 'parents-teachers' %}{{ section_heading('للأهل والمعلمين', 'مساحة للكبار الذين يصنعون فرقًا', section.category.description or 'محتوى هادئ وعملي يدعم الفضول من دون إجابات جاهزة.', url_for('content.category', slug=section.category.slug), 'كل الإرشادات', 'topic-' ~ section.category.id) }}
-    {% elif section.category.slug == 'books-stories' %}{{ section_heading('كتب وحكايات', 'صفحات تفتح نوافذ جديدة', section.category.description or 'حكايات وأفكار للقراءة المشتركة وصناعة القصص.', url_for('content.category', slug=section.category.slug), 'إلى رف الحكايات', 'topic-' ~ section.category.id) }}
-    {% else %}{{ section_heading('اصنع بطريقتك', section.category.title, section.category.description or 'مساحة لأفكار وتجارب بلا نموذج واحد صحيح.', url_for('content.category', slug=section.category.slug), 'استكشف القسم', 'topic-' ~ section.category.id) }}{% endif %}
-    <div class="topic-grid">{% for article in section.articles %}{{ article_card(article, ['image-dominant','horizontal','text-dominant'][loop.index0 % 3]) }}{% endfor %}</div>
+{% if section.category.slug == 'science-innovation' %}{% set mood = 'ik-world--lab' %}{% set prompt = 'جرّب، لاحظ، ثم اسأل لماذا' %}
+{% elif section.category.slug == 'parents-teachers' %}{% set mood = 'ik-world--calm' %}{% set prompt = 'أفكار للكبار الذين يصنعون فرقاً' %}
+{% elif section.category.slug == 'books-stories' %}{% set mood = 'ik-world--story' %}{% set prompt = 'صفحة واحدة قد تفتح ألف نافذة' %}
+{% elif section.category.slug == 'from-the-world' %}{% set mood = 'ik-world--journey' %}{% set prompt = 'اكتشافات تبدأ من هنا وتسافر بعيداً' %}
+{% else %}{% set mood = 'ik-world--art' %}{% set prompt = 'اصنعها بطريقتك الخاصة' %}{% endif %}
+<section class="ik-section ik-world {{ mood }}" aria-labelledby="topic-{{ section.category.id }}">
+  <div class="ik-world-mark" aria-hidden="true"></div>
+  <div class="ik-home-shell reveal">
+    <header class="ik-section-heading">
+      <div><span class="ik-kicker">{{ prompt }}</span><h2 class="type-h2" id="topic-{{ section.category.id }}">{{ section.category.title }}</h2></div>
+      <p>{{ section.category.description or 'أفكار وتجارب مختارة بعناية لتبدأ منها رحلة اكتشاف جديدة.' }}</p>
+      <a class="ik-text-link arrow-link" href="{{ url_for('content.category', slug=section.category.slug) }}">ادخل هذا العالم <span aria-hidden="true">←</span></a>
+    </header>
+    <div class="ik-topic-grid">{% for article in section.articles %}{{ article_card(article, 'ik-topic-card ik-topic-card--lead' if loop.first else 'ik-topic-card') }}{% endfor %}</div>
   </div>
 </section>
 {% endfor %}
-{% if latest_articles %}<section class="section-wrap latest-stage"><div class="site-section reveal">{{ section_heading('مختارات إضافية', 'مزيد من المواد التي تستحق وقتك', 'قراءات قصيرة ومتنوعة من أحدث ما نُشر.', url_for('content.articles'), 'عرض كل المقالات') }}<div class="latest-grid">{% for article in latest_articles %}{{ article_card(article, ['compact','text-dominant','compact'][loop.index0 % 3]) }}{% endfor %}</div></div></section>{% endif %}
+{% if latest_articles %}<section class="ik-section ik-latest" aria-labelledby="latest-heading"><div class="ik-home-shell reveal"><header class="ik-section-heading ik-section-heading--compact"><div><span class="ik-kicker">للمزيد من الفضول</span><h2 class="type-h2" id="latest-heading">أفكار قصيرة لوقت جميل.</h2></div><p>مواد إضافية يمكنك حفظها لرحلة الاكتشاف القادمة.</p><a class="ik-text-link arrow-link" href="{{ url_for('content.articles') }}">عرض المكتبة <span aria-hidden="true">←</span></a></header><div class="ik-latest-grid">{% for article in latest_articles %}{{ article_card(article, 'ik-latest-card') }}{% endfor %}</div></div></section>{% endif %}
